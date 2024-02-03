@@ -10,6 +10,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class DepartmentService {
+
     public void createDepartment(Session session) {
         Transaction transaction = null;
         Scanner scanner = new Scanner(System.in);
@@ -22,14 +23,6 @@ public class DepartmentService {
             System.out.println("Enter department location ");
             String location = scanner.nextLine();
             department.setLocation(location);
-            System.out.println("Enter department head ");
-            Long departmentHead = scanner.nextLong();
-            ManagerService managerService = new ManagerService();
-            transaction.commit();
-            managerService.createManager(session);
-            Manager departmentHeadName  = session.get(Manager.class,departmentHead);
-            session.persist(departmentHeadName);
-            department.setDepartmentHead(departmentHeadName);
             session.persist(department);
             transaction.commit();
             System.out.println("Department successfully created!");

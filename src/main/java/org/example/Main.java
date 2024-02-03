@@ -28,11 +28,11 @@ public class Main {
             System.out.println("7. Create Department");
             System.out.println("8. Update Department");
             System.out.println("9. Delete Department");
+           // System.out.println("10. Reassign employees to departments ");
 
             System.out.println("0. Exit");
 
             String choice = scanner.nextLine();
-            scanner.nextLine();
             switch (choice) {
                 case "1"-> employeeService.createEmployee(session);
                 case "2"-> employeeService.updateEmployee(session);
@@ -41,6 +41,7 @@ public class Main {
                 case "5"-> managerService.updateManager(session);
                 case "6"-> managerService.deleteManager(session);
                 case "7"-> departmentService.createDepartment(session);
+              //  case "10"->departmentService.reassignEmployeeToDepartment(session);
                 case "0"-> out = true;
                 default->  System.out.println("plz enter valid choice.");
 

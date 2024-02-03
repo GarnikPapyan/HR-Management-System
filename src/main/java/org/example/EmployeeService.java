@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.HashSet;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class EmployeeService {
@@ -31,7 +32,6 @@ public class EmployeeService {
             session.flush();
             session.persist(employee);
             transaction.commit();
-            System.out.println("nice work!!!");
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -84,27 +84,27 @@ public class EmployeeService {
     public void deleteEmployee(Session session) {
         Transaction transaction = null;
         Scanner scanner = new Scanner(System.in);
-        try {
-            transaction = session.beginTransaction();
-            System.out.println("Enter the employee ID then you want delete ");
-            Long employeeId = scanner.nextLong();
-            Employee employee = session.get(Employee.class,employeeId);
-            boolean out = false;
-            while (!out) {
-                if(employee!=null) {
-                    session.remove(employee);
-                    System.out.println("Deleted was successful.");
-                    transaction.commit();
-                    out = true;
-                } else {
-                    System.out.println("Plz enter the valid employee ID ");
-                }
+        boolean out = false;
+        transaction = session.beginTransaction();
+        System.out.println("Enter the employee ID then you want delete ");
+        while (!out) {
+            try {
+                Long employeeId = scanner.nextLong();
+                Employee employee = session.get(Employee.class,employeeId);
+                    if(employee!=null) {
+                        session.remove(employee);
+                        System.out.println("Deleted was successful.");
+                        transaction.commit();
+                        out = true;
+                    } else {
+                        System.out.println("Plz enter the valid employee ID ");
+                    }
+
+            } catch (InputMismatchException e) {
+                scanner.next();
+                System.out.println("Input only number from ID ");
             }
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            System.out.println("Error " + e.getMessage());
         }
+
     }
 }

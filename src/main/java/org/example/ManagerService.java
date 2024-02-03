@@ -2,8 +2,10 @@ package org.example;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class ManagerService {
@@ -49,6 +51,15 @@ public class ManagerService {
                 }
             }
             out = false;
+
+            String hql = "SELECT d.departmentId FROM Department d";
+            Query<Long> query = session.createQuery(hql, Long.class);
+            List<Long> allManagedDepartmentIds = query.getResultList();
+            System.out.println("Managed Department ID: ");
+            for (Long departmentId : allManagedDepartmentIds) {
+                System.out.print( departmentId + " ,");
+            }
+            System.out.println();
             System.out.println("Enter Managed Department ");
             while (!out) {
                 try {
@@ -57,18 +68,23 @@ public class ManagerService {
                     if(managedDepartment==null) {
                         managedDepartment = new Department();
                         managedDepartment.setDepartmentId(managedDepartmentId);
+                        manager.setManagedDepartment(managedDepartment);
+                        session.persist(managedDepartment);
+                       // session.persist(manager);
+                        session.flush();
+                       // transaction.commit();
+                        out = true;
+                    } else  {
+                        System.out.println("Enter a new ID this already exists! ");
                     }
-                    manager.setManagedDepartment(managedDepartment);
-                    session.persist(manager);
-                    session.flush();
-                    transaction.commit();
-                    out = true;
-                    System.out.println("nice work!!!");
+
                 } catch (InputMismatchException e) {
                     System.out.println("plz enter only number ID from department ");
                     scanner.next();
                 }
             }
+            session.persist(manager);
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -137,28 +153,28 @@ public class ManagerService {
     public void deleteManager(Session session) {
         Transaction transaction = null;
         Scanner scanner = new Scanner(System.in);
-        try {
-            transaction = session.beginTransaction();
-            System.out.println("Enter the manager ID then you want delete ");
-            Long employeeId = scanner.nextLong();
-            Manager manager = session.get(Manager.class,employeeId);
-            boolean out = false;
-            while (!out) {
-                if(manager!=null) {
-                    session.remove(manager);
-                    System.out.println("Deleted was successful.");
-                    transaction.commit();
-                    out = true;
-                } else {
-                    System.out.println("Plz enter the valid employee ID ");
-                }
+        transaction = session.beginTransaction();
+        System.out.println("Enter the manager ID then you want delete ");
+        boolean out = false;
+        while (!out) {
+            try {
+                Long employeeId = scanner.nextLong();
+                Manager manager = session.get(Manager.class,employeeId);
+
+                    if(manager!=null) {
+                        session.remove(manager);
+                        System.out.println("Deleted was successful.");
+                        transaction.commit();
+                        out = true;
+                    } else {
+                        System.out.println("Plz enter the valid employee ID ");
+                    }
+            } catch (InputMismatchException e) {
+                scanner.next();
+                System.out.println("plz enter only number from ID");
             }
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            System.out.println("Error " + e.getMessage());
         }
+
     }
 
 }
