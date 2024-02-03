@@ -53,10 +53,14 @@ public class ManagerService {
             while (!out) {
                 try {
                     Long managedDepartmentId = scanner.nextLong();
-                    Department managedDepartment = new Department();
-                    managedDepartment.setDepartmentId(managedDepartmentId);
+                    Department managedDepartment = session.get(Department.class,managedDepartmentId);
+                    if(managedDepartment==null) {
+                        managedDepartment = new Department();
+                        managedDepartment.setDepartmentId(managedDepartmentId);
+                    }
                     manager.setManagedDepartment(managedDepartment);
                     session.persist(manager);
+                    session.flush();
                     transaction.commit();
                     out = true;
                     System.out.println("nice work!!!");
