@@ -2,10 +2,8 @@ package org.example;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 public class ManagerService {
@@ -50,39 +48,6 @@ public class ManagerService {
                     default -> System.out.println("Plz enter the valid choice -> 1 , 2  or 0");
                 }
             }
-            out = false;
-
-            String hql = "SELECT d.departmentId FROM Department d";
-            Query<Long> query = session.createQuery(hql, Long.class);
-            List<Long> allManagedDepartmentIds = query.getResultList();
-            System.out.println("Managed Department ID: ");
-            for (Long departmentId : allManagedDepartmentIds) {
-                System.out.print( departmentId + " ,");
-            }
-            System.out.println();
-            System.out.println("Enter Managed Department ");
-            while (!out) {
-                try {
-                    Long managedDepartmentId = scanner.nextLong();
-                    Department managedDepartment = session.get(Department.class,managedDepartmentId);
-                    if(managedDepartment==null) {
-                        managedDepartment = new Department();
-                        managedDepartment.setDepartmentId(managedDepartmentId);
-                        manager.setManagedDepartment(managedDepartment);
-                        session.persist(managedDepartment);
-                       // session.persist(manager);
-                        session.flush();
-                       // transaction.commit();
-                        out = true;
-                    } else  {
-                        System.out.println("Enter a new ID this already exists! ");
-                    }
-
-                } catch (InputMismatchException e) {
-                    System.out.println("plz enter only number ID from department ");
-                    scanner.next();
-                }
-            }
             session.persist(manager);
             transaction.commit();
         } catch (Exception e) {
@@ -92,6 +57,7 @@ public class ManagerService {
             System.out.println("Error " + e.getMessage());
         }
     }
+   //*********************************
     public void updateManager(Session session) {
         Transaction transaction = null;
         Scanner scanner = new Scanner(System.in);
@@ -151,9 +117,8 @@ public class ManagerService {
         transaction.commit();
     }
     public void deleteManager(Session session) {
-        Transaction transaction = null;
+        Transaction transaction = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
-        transaction = session.beginTransaction();
         System.out.println("Enter the manager ID then you want delete ");
         boolean out = false;
         while (!out) {
@@ -177,4 +142,77 @@ public class ManagerService {
 
     }
 
-}
+    public void assignEmployeesToProjects(Session session) {
+        Transaction transaction = session.beginTransaction();
+        Scanner scanner = new Scanner(System.in);
+        boolean out = false;
+        while (!out) {
+            try {
+                while (!out) {
+                    System.out.println("Enter Manager ID which you want add to Departments ");
+                    Long managerId = scanner.nextLong();
+                    Manager manager = session.get(Manager.class,managerId);
+                    if(manager!=null) {
+                        System.out.println("End now go to the assign department ");
+                        Long departmentId = scanner.nextLong();
+                        Department department = session.get(Department.class,departmentId);
+                        if(department!=null) {
+                            manager.setDepartment(department);
+                            manager.setManagedDepartment(department);
+                            session.persist(department);
+                            transaction.commit();
+                            out = true;
+                            System.out.println("Assigned was successfully ");
+                        } else {
+                            System.out.println("Plz enter valid Id from Department ");
+                        }
+                    } else {
+                        System.out.println("Plz enter valid Id from Manager ");
+                    }
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Plz enter only Number");
+                scanner.next();
+            }
+        }
+    }
+
+    public void ReAssignEmployeesToProjects(Session session) {
+        Transaction transaction = session.beginTransaction();
+        Scanner scanner = new Scanner(System.in);
+        boolean out = false;
+        while (!out) {
+            try{
+                while (!out) {
+                    System.out.println("Enter Manager ID which you want delete to Departments ");
+                    Long managerId = scanner.nextLong();
+                    Manager manager = session.get(Manager.class,managerId);
+                    if(manager!=null) {
+                        System.out.println("End now go to the reassign department ");
+                        Long departmentId = scanner.nextLong();
+                        Department department = session.get(Department.class,departmentId);
+                        if(department!=null) {
+                            manager.getDepartment().getEmployees().remove(manager);
+                            manager.setDepartment(department);
+                            department.getEmployees().add(manager);
+                            manager.setManagedDepartment(department);
+                            session.persist(department);
+                            transaction.commit();
+                            out = true;
+                            System.out.println("Reassigned was successfully ");
+                        } else {
+                            System.out.println("Plz enter valid Id from Department ");
+                        }
+                    } else {
+                        System.out.println("Plz enter valid Id from Manager ");
+                    }
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Plz enter only number!! ");
+                scanner.next();
+            }
+        }
+        }
+    }
+
+

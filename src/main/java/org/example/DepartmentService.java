@@ -35,9 +35,8 @@ public class DepartmentService {
     }
 
     public void updateDepartment(Session session) {
-        Transaction transaction = null;
+        Transaction transaction = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
-        transaction = session.beginTransaction();
             boolean out = false;
             System.out.println("Enter that ID who you want update ");
             while (!out) {
@@ -67,9 +66,8 @@ public class DepartmentService {
     }
 
     public void deleteDepartment(Session session) {
-        Transaction transaction = null;
+        Transaction transaction = session.beginTransaction();
         Scanner scanner =  new Scanner(System.in);
-        transaction = session.beginTransaction();
         boolean out = false;
         System.out.println("Enter the ID department which you want delete! ");
         while (!out) {
@@ -92,9 +90,8 @@ public class DepartmentService {
     }
 
     public void assignEmployeesToDepartments(Session session) {
-        Transaction transaction = null;
+        Transaction transaction = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
-        transaction = session.beginTransaction();
         boolean out = false;
         while (!out) {
             try {
@@ -127,9 +124,8 @@ public class DepartmentService {
         }
     }
     public void reassignEmployeeToDepartment(Session session) {
-        Transaction transaction  = null;
+        Transaction transaction  = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
-        transaction = session.beginTransaction();
         boolean out = false;
         while (!out) {
             try{

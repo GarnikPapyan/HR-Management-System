@@ -3,7 +3,6 @@ package org.example;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -82,10 +81,9 @@ public class EmployeeService {
         }
     }
     public void deleteEmployee(Session session) {
-        Transaction transaction = null;
+        Transaction transaction = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
         boolean out = false;
-        transaction = session.beginTransaction();
         System.out.println("Enter the employee ID then you want delete ");
         while (!out) {
             try {
