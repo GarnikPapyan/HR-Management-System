@@ -18,7 +18,7 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private Set<Employee> employees;
 
-    @OneToOne(mappedBy = "managedDepartment")
+    @OneToOne(mappedBy = "managedDepartment",cascade = CascadeType.REMOVE)
     private Manager departmentHead;
 
     public Set<Employee> getEmployees() {

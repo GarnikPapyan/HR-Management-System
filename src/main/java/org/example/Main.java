@@ -28,7 +28,7 @@ public class Main {
             System.out.println("7. Create Department");
             System.out.println("8. Update Department");
             System.out.println("9. Delete Department");
-           // System.out.println("10. Reassign employees to departments ");
+            System.out.println("10. Assign employees to departments ");
 
             System.out.println("0. Exit");
 
@@ -41,10 +41,13 @@ public class Main {
                 case "5"-> managerService.updateManager(session);
                 case "6"-> managerService.deleteManager(session);
                 case "7"-> departmentService.createDepartment(session);
-              //  case "10"->departmentService.reassignEmployeeToDepartment(session);
+                case "8"-> departmentService.updateDepartment(session);
+                case "9"-> departmentService.deleteDepartment(session);
+                case "10"-> departmentService.assignEmployeesToDepartments(session);
+
+                //case "11"->departmentService.reassignEmployeeToDepartment(session);
                 case "0"-> out = true;
                 default->  System.out.println("plz enter valid choice.");
-
             }
         }
         session.close();
