@@ -98,27 +98,68 @@ public class DepartmentService {
         boolean out = false;
         while (!out) {
             try {
-                System.out.println("Enter Employee ID which you want add to Departments ");
-                Long employeeId = scanner.nextLong();
-                System.out.println("End now go to the assign department ");
-                Long departmentId = scanner.nextLong();
-                Employee employee = session.get(Employee.class,employeeId);
-
-                Department department = session.get(Department.class,departmentId);
-
-
-
-
-                employee.setDepartment(department);
-                session.persist(department);
-                transaction.commit();
-                out = true;
-                System.out.println("Assigned was successfully ");
+                while (!out) {
+                    System.out.println("Enter Employee ID which you want add to Departments ");
+                    Long employeeId = scanner.nextLong();
+                    Employee employee = session.get(Employee.class,employeeId);
+                    if(employee!=null) {
+                        System.out.println("End now go to the assign department ");
+                        Long departmentId = scanner.nextLong();
+                        Department department = session.get(Department.class,departmentId);
+                        if(department!=null) {
+                            employee.setDepartment(department);
+                            session.persist(department);
+                            transaction.commit();
+                            out = true;
+                            System.out.println("Assigned was successfully ");
+                        } else {
+                            System.out.println("Plz enter valid Id from Department ");
+                        }
+                    } else {
+                        System.out.println("Plz enter valid Id from Employee ");
+                    }
+                }
             } catch (InputMismatchException e) {
                 System.out.println("Plz enter only Number");
                 scanner.next();
             }
 
+        }
+    }
+    public void reassignEmployeeToDepartment(Session session) {
+        Transaction transaction  = null;
+        Scanner scanner = new Scanner(System.in);
+        transaction = session.beginTransaction();
+        boolean out = false;
+        while (!out) {
+            try{
+                while (!out) {
+                    System.out.println("Enter Employee ID which you want delete to Departments ");
+                    Long employeeId = scanner.nextLong();
+                    Employee employee = session.get(Employee.class,employeeId);
+                    if(employee!=null) {
+                        System.out.println("End now go to the reassign department ");
+                        Long departmentId = scanner.nextLong();
+                        Department department = session.get(Department.class,departmentId);
+                        if(department!=null) {
+                            employee.getDepartment().getEmployees().remove(employee);
+                            employee.setDepartment(department);
+                            department.getEmployees().add(employee);
+                            session.persist(department);
+                            transaction.commit();
+                            out = true;
+                            System.out.println("Reassigned was successfully ");
+                        } else {
+                            System.out.println("Plz enter valid Id from Department ");
+                        }
+                    } else {
+                        System.out.println("Plz enter valid Id from Employee ");
+                    }
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Plz enter only number!! ");
+                scanner.next();
+            }
         }
     }
 }
