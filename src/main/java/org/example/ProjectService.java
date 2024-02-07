@@ -3,6 +3,7 @@ package org.example;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -104,4 +105,42 @@ public class ProjectService {
             }
         }
     }
+
+    public void assignEmployeesToProjects(Session session) {
+        Transaction transaction = session.beginTransaction();
+        Scanner scanner = new Scanner(System.in);
+        boolean out = false;
+        while (!out) {
+            try {
+                while (!out) {
+                    System.out.println("Enter Employee ID which you want add to Projects ");
+                    Long employeeId = scanner.nextLong();
+                    Employee employee = session.get(Employee.class,employeeId);
+                    if(employee!=null) {
+                        System.out.println("End now go to the assign project ");
+                        Long projectId = scanner.nextLong();
+                        Project project = session.get(Project.class,projectId);
+                        HashSet<Project> projects = new HashSet<>();
+                        projects.add(project);
+                        if(project!=null) {
+                            employee.setProjects(projects);
+                            session.persist(project);
+                            transaction.commit();
+                            out = true;
+                            System.out.println("Assigned was successfully ");
+                        } else {
+                            System.out.println("Plz enter valid Id from Projects ");
+                        }
+                    } else {
+                        System.out.println("Plz enter valid Id from Employee ");
+                    }
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Plz enter only Number");
+                scanner.next();
+            }
+        }
+    }
+
+
 }
