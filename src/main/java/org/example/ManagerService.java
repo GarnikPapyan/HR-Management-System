@@ -7,6 +7,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ManagerService {
+
+    /**This method is to create Manager */
     public void createManager(Session session) {
         Transaction transaction = null;
         Scanner scanner = new Scanner(System.in);
@@ -57,7 +59,8 @@ public class ManagerService {
             System.out.println("Error " + e.getMessage());
         }
     }
-   //*********************************
+
+    /**This method is to update Manager */
     public void updateManager(Session session) {
         Transaction transaction = null;
         Scanner scanner = new Scanner(System.in);
@@ -116,6 +119,8 @@ public class ManagerService {
         }
         transaction.commit();
     }
+
+    /**This method is to delete Manager */
     public void deleteManager(Session session) {
         Transaction transaction = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
@@ -142,7 +147,8 @@ public class ManagerService {
 
     }
 
-    public void assignEmployeesToProjects(Session session) {
+    /**This method is to assign Employees to Managers */
+    public void assignEmployeesToManagers(Session session) {
         Transaction transaction = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
         boolean out = false;
@@ -176,8 +182,8 @@ public class ManagerService {
             }
         }
     }
-
-    public void ReAssignEmployeesToProjects(Session session) {
+    /**This method is to reassign Employees to Managers */
+    public void ReAssignEmployeesToManagers(Session session) {
         Transaction transaction = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
         boolean out = false;

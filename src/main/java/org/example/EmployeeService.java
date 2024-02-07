@@ -7,6 +7,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class EmployeeService {
+    /**This method is for creating Employee */
     public void createEmployee(Session session) {
         Transaction transaction = null;
         Scanner scanner = new Scanner(System.in);
@@ -38,7 +39,7 @@ public class EmployeeService {
             System.out.println("Error " + e.getMessage());
         }
     }
-
+    /**This method is for update Employee */
     public void updateEmployee(Session session) {
         Transaction transaction = null;
         Scanner scanner = new Scanner(System.in);
@@ -80,6 +81,7 @@ public class EmployeeService {
             System.out.println("Error " + e.getMessage());
         }
     }
+    /**This method is for deleting Employee */
     public void deleteEmployee(Session session) {
         Transaction transaction = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);

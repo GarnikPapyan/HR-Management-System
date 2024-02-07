@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 
 public class ProjectService {
+
+    /**This method is to create Project */
     public void createProject(Session session) {
         Transaction transaction = null;
         Scanner scanner = new Scanner(System.in);
@@ -45,7 +47,7 @@ public class ProjectService {
             System.out.println("Error " + e.getMessage());
         }
     }
-
+    /**This method is to update Project */
     public void updateProject(Session session) {
         Transaction transaction = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
@@ -83,6 +85,7 @@ public class ProjectService {
         }
     }
 
+    /**This method is to delete Project */
     public void deleteProject(Session session) {
         Transaction transaction = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
@@ -107,6 +110,7 @@ public class ProjectService {
         }
     }
 
+    /**This method is to assign Employees to Projects */
     public void assignEmployeesToProjects(Session session) {
         Transaction transaction = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
@@ -143,6 +147,7 @@ public class ProjectService {
         }
     }
 
+    /**This method is to reassign Employees to Projects */
     public  void reAssignEmployeesToProjects(Session session) {
         Transaction transaction =  session.beginTransaction();
         Scanner scanner =  new Scanner(System.in);

@@ -60,8 +60,8 @@ public class Main {
                 case "14"-> projectService.deleteProject(session);
                 case "15"-> projectService.assignEmployeesToProjects(session);
                 case "16"-> projectService.reAssignEmployeesToProjects(session);
-                case "17"-> managerService.assignEmployeesToProjects(session);
-                case "18"-> managerService.ReAssignEmployeesToProjects(session);
+                case "17"-> managerService.assignEmployeesToManagers(session);
+                case "18"-> managerService.ReAssignEmployeesToManagers(session);
 
 
                 case "0"-> out = true;

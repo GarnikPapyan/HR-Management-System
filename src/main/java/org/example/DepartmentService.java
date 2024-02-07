@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 public class DepartmentService {
 
+    /**This method is for creating department */
     public void createDepartment(Session session) {
         Transaction transaction = null;
         Scanner scanner = new Scanner(System.in);
@@ -33,7 +34,7 @@ public class DepartmentService {
             System.out.println("Error creating department: " + e.getMessage());
         }
     }
-
+    /**This method is for updating department */
     public void updateDepartment(Session session) {
         Transaction transaction = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
@@ -64,7 +65,7 @@ public class DepartmentService {
                 }
             }
     }
-
+    /**This method is for deleting department */
     public void deleteDepartment(Session session) {
         Transaction transaction = session.beginTransaction();
         Scanner scanner =  new Scanner(System.in);
@@ -88,7 +89,7 @@ public class DepartmentService {
             }
         }
     }
-
+    /**This method is to add Employees to Departments */
     public void assignEmployeesToDepartments(Session session) {
         Transaction transaction = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
@@ -123,6 +124,7 @@ public class DepartmentService {
 
         }
     }
+    /**This method is to update Employees to Departments */
     public void reassignEmployeeToDepartment(Session session) {
         Transaction transaction  = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
