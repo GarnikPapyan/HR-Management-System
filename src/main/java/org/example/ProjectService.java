@@ -80,4 +80,28 @@ public class ProjectService {
             }
         }
     }
+
+    public void deleteProject(Session session) {
+        Transaction transaction = session.beginTransaction();
+        Scanner scanner = new Scanner(System.in);
+        boolean out = false;
+        System.out.println("Enter Id from project which you want delete ");
+        while (!out) {
+            try {
+                Long projectId =  scanner.nextLong();
+                Project project = session.get(Project.class,projectId);
+                if(project != null) {
+                    session.remove(project);
+                    System.out.println("Deleted was successful.");
+                    transaction.commit();
+                    out = true;
+                } else  {
+                    System.out.println("Enter valid Id for delete ");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Plz enter only number for project ID!! ");
+                scanner.next();
+            }
+        }
+    }
 }
