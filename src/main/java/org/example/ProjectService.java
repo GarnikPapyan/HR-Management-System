@@ -43,4 +43,41 @@ public class ProjectService {
             System.out.println("Error " + e.getMessage());
         }
     }
+
+    public void updateProject(Session session) {
+        Transaction transaction = session.beginTransaction();
+        Scanner scanner = new Scanner(System.in);
+        boolean out = false;
+        System.out.println("Enter project Id which you want to delete ");
+        while (!out) {
+            try {
+                Long projectId = scanner.nextLong();
+                scanner.nextLine();
+                Project project = session.get(Project.class,projectId);
+                if(project!=null) {
+                    System.out.println("Enter the update project name");
+                    String projectName = scanner.nextLine();
+                    project.setProjectName(projectName);
+                    System.out.println("Update to start time from project ");
+                    String projectStarDate = scanner.nextLine();
+                    project.setStartDate(projectStarDate);
+                    System.out.println("Update to final date from project");
+                    String projectEndDate = scanner.nextLine();
+                    scanner.nextDouble();
+                    project.setEndDate(projectEndDate);
+                    System.out.println("Update the budget from project ");
+                    Double projectBudget = scanner.nextDouble();
+                    project.setBudget(projectBudget);
+                    transaction.commit();
+                    out = true;
+                    System.out.println("Project update was successfully");
+                } else {
+                    System.out.println("Enter the valid project ID ");
+                }
+            }catch (InputMismatchException e) {
+                System.out.println("Plz enter only number from project ID ");
+                scanner.next();
+            }
+        }
+    }
 }
