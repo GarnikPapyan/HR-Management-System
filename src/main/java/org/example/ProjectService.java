@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
 public class ProjectService {
     public void createProject(Session session) {
         Transaction transaction = null;
@@ -142,5 +143,43 @@ public class ProjectService {
         }
     }
 
-
+    public  void reAssignEmployeesToProjects(Session session) {
+        Transaction transaction =  session.beginTransaction();
+        Scanner scanner =  new Scanner(System.in);
+        boolean out = false;
+        while (!out) {
+            try{
+                while (!out) {
+                    System.out.println("Enter Employee ID which you want delete to Projects ");
+                    Long employeeId = scanner.nextLong();
+                    Employee employee = session.get(Employee.class,employeeId);
+                    if(employee!=null) {
+                        System.out.println("End now go to the reassign Projects ");
+                        Long projectId = scanner.nextLong();
+                        Project projects = session.get(Project.class,projectId);
+                        if(projects!=null) {
+                            for(Project project:employee.getProjects()) {
+                                if(project.getProjectId().equals(projectId)){
+                                    employee.getProjects().remove(project);
+                                    break;
+                                }
+                            }
+                            projects.getEmployees().add(employee);
+                            session.persist(employee);
+                            transaction.commit();
+                            out = true;
+                            System.out.println("Reassigned was successfully ");
+                        } else {
+                            System.out.println("Plz enter valid Id from Department ");
+                        }
+                    } else {
+                        System.out.println("Plz enter valid Id from Employee ");
+                    }
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Plz enter only number!! ");
+                scanner.next();
+            }
+        }
+    }
 }

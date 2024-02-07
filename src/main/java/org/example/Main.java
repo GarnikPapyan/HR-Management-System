@@ -36,6 +36,7 @@ public class Main {
             System.out.println("14. Delete Project ");
             System.out.println("14. Delete Project ");
             System.out.println("15. Assign employees to projects ");
+            System.out.println("16. Reassign employees to projects ");
 
             System.out.println("0. Exit");
 
@@ -56,6 +57,7 @@ public class Main {
                 case "13"-> projectService.updateProject(session);
                 case "14"-> projectService.deleteProject(session);
                 case "15"-> projectService.assignEmployeesToProjects(session);
+                case "16"-> projectService.reAssignEmployeesToProjects(session);
 
 
                 case "0"-> out = true;
